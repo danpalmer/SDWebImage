@@ -59,7 +59,11 @@ static char operationKey;
             if (image)
             {
                 sself.image = image;
+#if TARGET_OS_PHONE
                 [sself setNeedsLayout];
+#else
+				[sself setNeedsLayout:YES];
+#endif
             }
             if (completedBlock && finished)
             {

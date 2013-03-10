@@ -13,6 +13,8 @@
 #import <mach/mach.h>
 #import <mach/mach_host.h>
 
+#import "NSImage+UIKitAdditions.h"
+
 static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 7; // 1 week
 
 @interface SDImageCache ()

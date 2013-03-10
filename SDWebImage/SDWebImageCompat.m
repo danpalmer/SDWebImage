@@ -7,6 +7,7 @@
 //
 
 #import "SDWebImageCompat.h"
+#import "NSImage+UIKitAdditions.h"
 
 #if !__has_feature(objc_arc)
 #error SDWebImage is ARC only. Either turn on ARC for the project or use -fobjc-arc flag
@@ -35,6 +36,7 @@ UIImage *SDScaledImageForPath(NSString *path, NSObject *imageOrData)
 
     if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
     {
+#if TARGET_OS_PHONE
         CGFloat scale = 1.0;
         if (path.length >= 8)
         {
@@ -47,6 +49,10 @@ UIImage *SDScaledImageForPath(NSString *path, NSObject *imageOrData)
         }
 
         UIImage *scaledImage = [[UIImage alloc] initWithCGImage:image.CGImage scale:scale orientation:image.imageOrientation];
+#else
+		CGImageRef cgImage = image.CGImage;
+		UIImage *scaledImage = [[UIImage alloc] initWithCGImage:cgImage size:NSMakeSize(CGImageGetWidth(cgImage), CGImageGetHeight(cgImage))];
+#endif
         image = scaledImage;
     }
 

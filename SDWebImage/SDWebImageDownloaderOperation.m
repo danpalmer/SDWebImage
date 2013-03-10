@@ -239,7 +239,11 @@
 
                 if (partialImageRef)
                 {
+#if TARGET_OS_PHONE
                     UIImage *image = [UIImage decodedImageWithImage:SDScaledImageForPath(self.request.URL.absoluteString, [UIImage imageWithCGImage:partialImageRef])];
+#else
+					UIImage *image = [UIImage decodedImageWithImage:SDScaledImageForPath(self.request.URL.absoluteString, [[UIImage alloc] initWithCGImage:partialImageRef size:NSMakeSize(CGImageGetWidth(partialImageRef), CGImageGetHeight(partialImageRef))])];
+#endif
                     CGImageRelease(partialImageRef);
                     dispatch_async(dispatch_get_main_queue(), ^
                     {

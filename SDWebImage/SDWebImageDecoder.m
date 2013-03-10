@@ -9,6 +9,7 @@
  */
 
 #import "SDWebImageDecoder.h"
+#import "NSImage+UIKitAdditions.h"
 
 @implementation UIImage (ForceDecode)
 
@@ -61,8 +62,11 @@
     CGImageRef decompressedImageRef = CGBitmapContextCreateImage(context);
 	
     CGContextRelease(context);
-	
+#if TARGET_OS_PHONE
     UIImage *decompressedImage = [UIImage imageWithCGImage:decompressedImageRef scale:image.scale orientation:image.imageOrientation];
+#else
+	NSImage *decompressedImage = [[NSImage alloc] initWithCGImage:decompressedImageRef size:imageSize];
+#endif
     CGImageRelease(decompressedImageRef);
     return decompressedImage;
 }
